@@ -1,8 +1,8 @@
 #version 300 es
 precision highp float;
-layout(location = 0) in vec3 aVertex;
+in vec2 aPosition;
 
 void main(){
-    vec4 positon = vec4(aVertex, 1.0);
+    vec4 positon = vec4(aPosition, 0.0, 1.0);
     gl_Position = positon;
 }

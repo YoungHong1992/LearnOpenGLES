@@ -9,9 +9,14 @@ import java.io.InputStreamReader
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
+import java.nio.IntBuffer
 
 class GLUtil {
+
+
     companion object {
+
+        private const val TAG = "GLUtil"
 
         /**
          * 加载指定类型的shader
@@ -27,16 +32,7 @@ class GLUtil {
             GLES30.glShaderSource(shader, code)
             GLES30.glCompileShader(shader)
             //检查shader是否错误
-            val compileStatus = IntArray(1)
-            GLES30.glGetShaderiv(shader, GLES30.GL_COMPILE_STATUS, compileStatus, 0)
-            if (compileStatus[0] == 0) {
-                Log.e("ShaderUtil", "Error compiling shader: " + GLES30.glGetShaderInfoLog(shader))
-                GLES30.glDeleteShader(shader)
-                shader = 0
-            }
-            if (shader == 0) {
-                throw RuntimeException("Error creating shader.")
-            }
+            checkShaderError(shader)
             return shader
         }
 
@@ -50,6 +46,51 @@ class GLUtil {
             floatBuffer!!.put(array)
             floatBuffer!!.position(0)
             return floatBuffer
+        }
+
+        fun getIntBuffer(array: IntArray): IntBuffer {
+            var byteBuffer = ByteBuffer.allocateDirect(4 * array.size)
+            byteBuffer.order(ByteOrder.nativeOrder())
+            var intBuffer = byteBuffer.asIntBuffer()
+            intBuffer!!.put(array)
+            intBuffer!!.position(0)
+            return intBuffer
+        }
+
+        fun checkGLError() {
+            val error = GLES30.glGetError()
+            var msg = when (error) {
+                GLES30.GL_INVALID_ENUM -> "INVALID_ENUM"
+                GLES30.GL_INVALID_VALUE -> "INVALID_VALUE"
+                GLES30.GL_INVALID_OPERATION -> "INVALID_OPERATION"
+                GLES30.GL_OUT_OF_MEMORY -> "OUT_OF_MEMORY"
+                GLES30.GL_INVALID_FRAMEBUFFER_OPERATION -> "INVALID_FRAMEBUFFER_OPERATION"
+                else -> "ERROR_NOT_FOUND"
+            }
+            if (error != GLES30.GL_NO_ERROR) {
+                Log.e(TAG, "glError=${msg}")
+                throw Exception("glError = ${error}, errorMsg = $msg")
+            }
+        }
+
+        fun checkProgramError(program: Int) {
+            val linkStatus = IntArray(1)
+            GLES30.glGetProgramiv(program, GLES30.GL_LINK_STATUS, linkStatus, 0)
+            if (linkStatus[0] == 0) {
+                Log.e(TAG, "Error link program: " + GLES30.glGetProgramInfoLog(program))
+                GLES30.glDeleteProgram(program)
+                throw RuntimeException("Error link program.")
+            }
+        }
+
+        private fun checkShaderError(shader: Int) {
+            val compileStatus = IntArray(1)
+            GLES30.glGetShaderiv(shader, GLES30.GL_COMPILE_STATUS, compileStatus, 0)
+            if (compileStatus[0] == 0) {
+                Log.e(TAG, "Error compiling shader: " + GLES30.glGetShaderInfoLog(shader))
+                GLES30.glDeleteShader(shader)
+                throw RuntimeException("Error creating shader.")
+            }
         }
 
         /**
