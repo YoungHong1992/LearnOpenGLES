@@ -1,4 +1,4 @@
-package com.younghong.learngles.a_getting_started.lesson_02
+package com.younghong.learngles.a_getting_started.b_shaders
 
 import android.opengl.GLES30
 import android.opengl.GLSurfaceView
@@ -9,32 +9,33 @@ import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class MyRenderer02 : GLSurfaceView.Renderer {
+class ShadersRenderer : GLSurfaceView.Renderer {
     private var programID = -1
-    private var positionIndx = -1
-    //每2个数组成一个点的坐标，总共3个坐标，对应三角形三个顶点
-    private var points = floatArrayOf(
-        0.0f, 0.5f,
-        -0.5f, -0.5f,
-        0.5f, -0.5f
+    private var vertexPosition = 0
+    private var colorPosition = 1
+    //三个顶点的数据，分别为xy坐标，rgb颜色
+    private var vertices = floatArrayOf(
+        0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f
     )
-    private val pointsBuffer: FloatBuffer
-    private var vertexBuffer: IntArray = IntArray(1)
+    private val verticesBuffer: FloatBuffer
+    private var vbo = -1
 
     init {
-        pointsBuffer = GLUtil.getFloatBuffer(points)
+        verticesBuffer = GLUtil.getFloatBuffer(vertices)
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         var vertexShader = GLUtil.loadGLShader(
             MyApplication.appContext!!,
             GLES30.GL_VERTEX_SHADER,
-            R.raw.lesson02_vertex_shader
+            R.raw.shaders_vertex_shader
         )
         var fragmentShader = GLUtil.loadGLShader(
             MyApplication.appContext!!,
             GLES30.GL_FRAGMENT_SHADER,
-            R.raw.lesson02_fragment_shader
+            R.raw.shaders_fragment_shader
         )
         programID = GLES30.glCreateProgram()
         GLES30.glAttachShader(programID, vertexShader)
@@ -44,18 +45,22 @@ class MyRenderer02 : GLSurfaceView.Renderer {
         GLES30.glDeleteShader(vertexShader)
         GLES30.glDeleteShader(fragmentShader)
 
-        positionIndx = GLES30.glGetAttribLocation(programID, "aPosition")
-        GLES30.glEnableVertexAttribArray(positionIndx)
 
         //顶点数组放入缓冲区
-        GLES30.glGenBuffers(1, vertexBuffer, 0)
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, vertexBuffer[0])
+        var buffers = IntArray(1)
+        GLES30.glGenBuffers(1, buffers, 0)
+        vbo = buffers[0]
+        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, vbo)
         GLES30.glBufferData(
             GLES30.GL_ARRAY_BUFFER,
-            4 * points.size,
-            pointsBuffer,
+            4 * vertices.size,
+            verticesBuffer,
             GLES30.GL_STATIC_DRAW
         )
+
+        //开启顶点属性
+        GLES30.glEnableVertexAttribArray(vertexPosition)
+        GLES30.glEnableVertexAttribArray(colorPosition)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -67,7 +72,8 @@ class MyRenderer02 : GLSurfaceView.Renderer {
         GLES30.glClearColor(0f, 0f, 0f, 1f)
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT)
 
-        GLES30.glVertexAttribPointer(positionIndx, 2, GLES30.GL_FLOAT, false, 2 * 4, 0)
+        GLES30.glVertexAttribPointer(vertexPosition, 2, GLES30.GL_FLOAT, false, 4 * 5, 0)
+        GLES30.glVertexAttribPointer(colorPosition, 3, GLES30.GL_FLOAT, false, 4 * 5, 4 * 2)
         GLES30.glDrawArrays(GLES30.GL_TRIANGLE_STRIP, 0, 3)
     }
 

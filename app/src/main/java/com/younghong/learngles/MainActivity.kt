@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.younghong.learngles.a_getting_started.a_hello_triangle.HelloTriangleActivity
-import com.younghong.learngles.a_getting_started.lesson_02.Lesson02Activity
+import com.younghong.learngles.a_getting_started.b_shaders.ShadersActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.lesson_1 -> startActivity<HelloTriangleActivity>()
-            R.id.lesson_2 -> startActivity<Lesson02Activity>()
+            R.id.lesson_2 -> startActivity<ShadersActivity>()
         }
     }
 

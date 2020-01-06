@@ -15,13 +15,13 @@
             android:id="@+id/lesson_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lesson 01: 绘制三角形" />
+            android:text="Hello Triangle(你好，三角形)" />
 
         <Button
             android:id="@+id/lesson_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lesson 02: 矫正三角形" />
+            android:text="Shaders(着色器)" />
     </LinearLayout>
 
 </ScrollView>

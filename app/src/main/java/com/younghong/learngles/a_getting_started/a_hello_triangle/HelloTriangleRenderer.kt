@@ -57,12 +57,12 @@ class HelloTriangleRenderer : GLSurfaceView.Renderer {
         val fragmentShaderID = GLUtil.loadGLShader(
             MyApplication.appContext!!,
             GLES30.GL_FRAGMENT_SHADER,
-            R.raw.lesson01_fragment_shader
+            R.raw.hello_triangle_fragment_shader
         )
         val vertexShaderID = GLUtil.loadGLShader(
             MyApplication.appContext!!,
             GLES30.GL_VERTEX_SHADER,
-            R.raw.lesson01_vertex_shader
+            R.raw.hello_triangle_vertex_shader
         )
 
         //创建program,绑定shader,链接、使用program,删除内存中的shader
