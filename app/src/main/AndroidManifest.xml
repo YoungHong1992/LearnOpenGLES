@@ -10,8 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.younghong.learngles.a_getting_started.b_shaders.ShadersActivity"></activity>
-        <activity android:name="com.younghong.learngles.a_getting_started.a_hello_triangle.HelloTriangleActivity" />
+        <activity android:name=".a_getting_started.c_textures.TexturesActivity"></activity>
+        <activity android:name=".a_getting_started.b_shaders.ShadersActivity" />
+        <activity android:name=".a_getting_started.a_hello_triangle.HelloTriangleActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,7 +1,9 @@
 package com.younghong.learngles
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.opengl.GLES30
+import android.opengl.GLUtils
 import android.util.Log
 import java.io.BufferedReader
 import java.io.IOException
@@ -34,6 +36,39 @@ class GLUtil {
             //检查shader是否错误
             checkShaderError(shader)
             return shader
+        }
+
+        fun bindTextures(texID: Int, bitmap: Bitmap) {
+            GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, texID)
+            GLES30.glTexParameteri(
+                GLES30.GL_TEXTURE_2D,
+                GLES30.GL_TEXTURE_MIN_FILTER,
+                GLES30.GL_LINEAR_MIPMAP_LINEAR
+            )
+            GLES30.glTexParameteri(
+                GLES30.GL_TEXTURE_2D,
+                GLES30.GL_TEXTURE_MAG_FILTER,
+                GLES30.GL_LINEAR
+            )
+            checkGLError()
+
+            GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, bitmap, 0)
+            GLES30.glGenerateMipmap(GLES30.GL_TEXTURE_2D)
+            checkGLError()
+
+            GLES30.glTexParameterf(
+                GLES30.GL_TEXTURE_2D,
+                GLES30.GL_TEXTURE_WRAP_S,
+                GLES30.GL_CLAMP_TO_EDGE.toFloat()
+            )
+            GLES30.glTexParameterf(
+                GLES30.GL_TEXTURE_2D,
+                GLES30.GL_TEXTURE_WRAP_T,
+                GLES30.GL_CLAMP_TO_EDGE.toFloat()
+            )
+            checkGLError()
+
+            GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, 0)
         }
 
         /**

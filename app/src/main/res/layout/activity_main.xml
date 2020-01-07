@@ -22,6 +22,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Shaders(着色器)" />
+
+        <Button
+            android:id="@+id/lesson_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Textures(纹理)" />
     </LinearLayout>
 
 </ScrollView>
