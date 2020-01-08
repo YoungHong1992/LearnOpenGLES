@@ -28,6 +28,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Textures(纹理)" />
+
+        <Button
+            android:id="@+id/lesson_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transformations(变换)" />
     </LinearLayout>
 
 </ScrollView>
