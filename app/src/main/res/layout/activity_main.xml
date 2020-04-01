@@ -34,6 +34,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Transformations(变换)" />
+
+        <Button
+            android:id="@+id/lesson_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Coordinate Systems(坐标系统)" />
     </LinearLayout>
 
 </ScrollView>

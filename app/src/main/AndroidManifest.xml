@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".a_getting_started.d_transformations.TransformationsActivity"></activity>
+        <activity android:name=".a_getting_started.e_coordinate_systems.CoordinateSystemsActivity"></activity>
+        <activity android:name=".a_getting_started.d_transformations.TransformationsActivity" />
         <activity android:name=".a_getting_started.c_textures.TexturesActivity" />
         <activity android:name=".a_getting_started.b_shaders.ShadersActivity" />
         <activity android:name=".a_getting_started.a_hello_triangle.HelloTriangleActivity" />
